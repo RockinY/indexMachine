@@ -17,6 +17,7 @@
     "draft-js": "^0.10.5",
     "elasticsearch": "^15.1.1",
     "emoji-regex": "^7.0.0",
+    "raven": "^2.6.3",
     "rethinkdb-changefeed-reconnect": "^0.3.2",
     "rethinkdbdash": "^2.3.31",
     "stopword": "^0.1.10"
