@@ -2,7 +2,10 @@
   "name": "service-index",
   "version": "0.0.1",
   "description": "Elasticsearch Data pump",
-  "scripts": {},
+  "scripts": {
+    "dev": "DEBUG=elastic* backpack",
+    "build": "backpack build"
+  },
   "keywords": [
     "elastic"
   ],

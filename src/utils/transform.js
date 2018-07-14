@@ -1,5 +1,5 @@
 // @flow
-const debug = require('debug')('vulcan:utils');
+const debug = require('debug')('elastic:transform');
 import type {
   DBThread,
   DBUser,

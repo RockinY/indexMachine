@@ -1,58 +1,26 @@
 import client from '../utils/elastic'
+import mapping from './mapping'
 
-const debug = require('debug')('elastic:scripts')
+const debug = require('debug')('elastic:scripts:initialize')
 
 const initialize = () => {
   debug(`Check index ${process.env.ELASTIC_INDEX}`)
-  client.indices.exists({
-    index: process.env.ELASTIC_INDEX
-  }, (exists) => {
-    if (exists) {
-      debug(`Index ${process.env.ELASTIC_INDEX} already exists.`)
-    } else {
+  client.indices.exists({index: process.env.ELASTIC_INDEX})
+    .then((exists) => {
+      if (exists) {
+        debug(`Index ${process.env.ELASTIC_INDEX} already exists.`)
+        return
+      }
+
       debug(`Creating index ${process.env.ELASTIC_INDEX}`)
-      return client.indices.create({
+      client.indices.create({
         index: process.env.ELASTIC_INDEX
-      }, () => {
+      }).then(() => {
         debug(`Creating mapping for analyzer`)
-        client.indices.putMapping({
-          index: process.env.ELASTIC_INDEX,
-          updateAllTypes: true,
-          body: {
-            properties: {
-              body: {
-                type: 'text',
-                analyzer: 'ik_max_word',
-                search_analyzer: 'ik_max_word'
-              },
-              title: {
-                type: 'text',
-                analyzer: 'ik_max_word',
-                search_analyzer: 'ik_max_word'
-              },
-              name: {
-                type: 'text',
-                analyzer: 'ik_max_word',
-                search_analyzer: 'ik_max_word'
-              },
-              username: {
-                type: 'text',
-                analyzer: 'ik_max_word',
-                search_analyzer: 'ik_max_word'
-              },
-              description: {
-                type: 'text',
-                analyzer: 'ik_max_word',
-                search_analyzer: 'ik_max_word'
-              }
-            }
-          }
-        }, () => {
-          debug(`Done initialize!`)
-        })
+        mapping()
+        .then(() => debug('Initialize done.'))
       })
-    }
-  })
+    })
 }
 
 export default initialize

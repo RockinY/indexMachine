@@ -1,4 +1,4 @@
-const debug = require('debug')('indexmachine:utils:raven')
+const debug = require('debug')('elastic:utils:raven')
 
 let Raven
 if (
