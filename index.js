@@ -1,5 +1,7 @@
+import './utils/dotenv'
 import createServer from './server'
 import raven from './utils/raven'
+import initialize from './scripts/initialize'
 
 const debug = require('debug')('elastic:indexing')
 const port = process.env.PORT || 3007
@@ -7,6 +9,9 @@ const port = process.env.PORT || 3007
 debug('\n✉️ Search worker, is starting...');
 debug('Logging with debug enabled!');
 debug('');
+
+// Initialize the elastic index
+initialize()
 
 const server = createServer();
 server.listen(PORT, 'localhost', () => {
