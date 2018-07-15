@@ -1,24 +1,103 @@
 import client from '../utils/elastic'
-import mapping from './mapping'
 
 const debug = require('debug')('elastic:scripts:initialize')
 
 const initialize = () => {
-  debug(`Check index ${process.env.ELASTIC_INDEX}`)
-  client.indices.exists({index: process.env.ELASTIC_INDEX})
+  client.indices.exists({index: `threads`})
     .then((exists) => {
       if (exists) {
-        debug(`Index ${process.env.ELASTIC_INDEX} already exists.`)
         return
       }
 
-      debug(`Creating index ${process.env.ELASTIC_INDEX}`)
       client.indices.create({
-        index: process.env.ELASTIC_INDEX
+        index: `threads`,
+        body: {
+          mappings: {
+            item: {
+              properties: {
+                body: {
+                  type: 'text',
+                  analyzer: 'ik_max_word',
+                  search_analyzer: 'ik_max_word'
+                },
+                title: {
+                  type: 'text',
+                  analyzer: 'ik_max_word',
+                  search_analyzer: 'ik_max_word'
+                }
+              }
+            }
+          }
+        }
       }).then(() => {
-        debug(`Creating mapping for analyzer`)
-        mapping()
-        .then(() => debug('Initialize done.'))
+        debug(`Done initialize threads.`)
+      })
+    })
+
+  client.indices.exists({index: `users`})
+    .then((exists) => {
+      if (exists) {
+        return
+      }
+
+      client.indices.create({
+        index: `users`,
+        body: {
+          mappings: {
+            item: {
+              properties: {
+                name: {
+                  type: 'text',
+                  analyzer: 'ik_max_word',
+                  search_analyzer: 'ik_max_word'
+                },
+                username: {
+                  type: 'text',
+                  analyzer: 'ik_max_word',
+                  search_analyzer: 'ik_max_word'
+                },
+                description: {
+                  type: 'text',
+                  analyzer: 'ik_max_word',
+                  search_analyzer: 'ik_max_word'
+                }
+              }
+            }
+          }
+        }
+      }).then(() => {
+        debug(`Done initialize users.`)
+      })
+    })
+
+  client.indices.exists({index: `communities`})
+    .then((exists) => {
+      if (exists) {
+        return
+      }
+
+      client.indices.create({
+        index: `communities`,
+        body: {
+          mappings: {
+            item: {
+              properties: {
+                description: {
+                  type: 'text',
+                  analyzer: 'ik_max_word',
+                  search_analyzer: 'ik_max_word'
+                },
+                name: {
+                  type: 'text',
+                  analyzer: 'ik_max_word',
+                  search_analyzer: 'ik_max_word'
+                }
+              }
+            }
+          }
+        }
+      }).then(() => {
+        debug(`Done initialize communities.`)
       })
     })
 }
