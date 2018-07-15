@@ -7,7 +7,8 @@ import {
   listenToDeletedDocumentsIn,
   listenToChangedFieldIn
 } from '../utils/changeFeed'
-import type { DBThread } from '../utils/flowTypes'
+import typeimport { resolve } from 'dns';
+ { DBThread } from '../utils/flowTypes'
 
 export const getThreadById = (threadId: string): Promise<DBThread> => {
   return db
@@ -31,6 +32,75 @@ export const newThread = () => {
     })
     .catch(err => {
       debug('error indexing a thread')
+      console.log(err)
+      Raven.captureException(err)
+    })
+  })
+}
+
+export const deletedThread = () => {
+  listenToDeletedDocumentsIn(db, 'threads', data => {
+    return client.delete({
+      index: 'threads',
+      type: 'item',
+      id: data.id
+    })
+    .then(() => {
+      debug('deleted thread in search')
+      return
+    })
+    .catch(err => {
+      debug('error deleting a thread')
+      console.log(err)
+      Raven.captureException(err)
+    })
+  })
+}
+
+export const movedThread = () => {
+  listenToChangedFieldIn(db, 'channelId')('threads', data => {
+    return client.updateByQuery({
+      index: 'threads',
+      type: 'item',
+      body: {
+        script: {
+          lang: 'painless',
+          source: `ctx._source.channelId = ${data.channelId}`
+        },
+        query: {
+          match: {
+            threadId: data.id
+          }
+        }
+      }
+    })
+    .then(() => {
+      debug('changed thread channel in search')
+      return
+    })
+    .catch(err => {
+      debug('error changing thread channel')
+      console.log(err)
+      Raven.captureException(err)
+    })
+  })
+}
+
+export const editedThread = () => {
+  listenToChangedFieldIn(db, 'modifiedAt')('threads', data => {
+    const searchableThread = dbThreadToSearchThread(data)
+    return client.update({
+      index: 'threads',
+      type: 'item',
+      id: data.id,
+      body: searchableThread
+    })
+    .then(() => {
+      debug('edited thread in search')
+      return
+    })
+    .catch(err => {
+      debug('error editing a thread')
       console.log(err)
       Raven.captureException(err)
     })
