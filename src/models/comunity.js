@@ -15,7 +15,7 @@ export const newCommunity = () => {
     return client.create({
       index: 'communities',
       type: 'item',
-      id: searchableCommunity.id,
+      id: data.id,
       body: searchableCommunity
     })
     .then(() => {
