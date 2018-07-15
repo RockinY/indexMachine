@@ -7,8 +7,7 @@ import {
   listenToDeletedDocumentsIn,
   listenToChangedFieldIn
 } from '../utils/changeFeed'
-import typeimport { resolve } from 'dns';
- { DBThread } from '../utils/flowTypes'
+import type { DBThread } from '../utils/flowTypes'
 
 const debug = require('debug')('elastic:model:thread')
 
@@ -34,7 +33,7 @@ export const newThread = () => {
     })
     .catch(err => {
       debug('error indexing a thread')
-      console.log(err)
+      console.error(err)
       Raven.captureException(err)
     })
   })
@@ -53,7 +52,7 @@ export const deletedThread = () => {
     })
     .catch(err => {
       debug('error deleting a thread')
-      console.log(err)
+      console.error(err)
       Raven.captureException(err)
     })
   })
@@ -82,7 +81,7 @@ export const movedThread = () => {
     })
     .catch(err => {
       debug('error changing thread channel')
-      console.log(err)
+      console.error(err)
       Raven.captureException(err)
     })
   })
@@ -103,7 +102,7 @@ export const editedThread = () => {
     })
     .catch(err => {
       debug('error editing a thread')
-      console.log(err)
+      console.error(err)
       Raven.captureException(err)
     })
   })

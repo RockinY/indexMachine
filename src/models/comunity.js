@@ -9,6 +9,8 @@ import {
 import db from '../utils/db'
 import Raven from '../utils/raven';
 
+const debug = require('debug')('elastic:model:community')
+
 export const newCommunity = () => {
   return listenToNewDocumentsIn(db, 'communities', data => {
     const searchableCommunity = dbCommunityToSearchCommunity(data)
@@ -24,7 +26,7 @@ export const newCommunity = () => {
     })
     .catch(err => {
       debug('error indexing a community')
-      console.log(err)
+      console.error(err)
       Raven.captureException(err)
     })
   })
@@ -43,7 +45,7 @@ export const deletedCommunity = () => {
     })
     .catch(err => {
       debug('error deleting a community')
-      console.log(err)
+      console.error(err)
       Raven.captureException(err)
     })
   })
@@ -66,7 +68,7 @@ export const editedCommunity = () => {
     })
     .catch(err => {
       debug('error updating a community')
-      console.log(err)
+      console.error(err)
       Raven.captureException(err)
     })
   })

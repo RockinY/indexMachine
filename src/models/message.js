@@ -31,7 +31,7 @@ export const newMessage = () => {
     })
     .catch(err => {
       debug('error indexing a message')
-      console.log(err)
+      console.error(err)
       Raven.captureException(err)
     })
   })
@@ -50,7 +50,7 @@ export const deleteMessage = () => {
     })
     .catch(err => {
       debug('error delete a message')
-      console.log(err)
+      console.error(err)
       Raven.captureException(err)
     })
   })
