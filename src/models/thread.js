@@ -10,6 +10,8 @@ import {
 import typeimport { resolve } from 'dns';
  { DBThread } from '../utils/flowTypes'
 
+const debug = require('debug')('elastic:model:thread')
+
 export const getThreadById = (threadId: string): Promise<DBThread> => {
   return db
     .table('threads')
