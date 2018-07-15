@@ -2,6 +2,25 @@ import './utils/dotenv'
 import createServer from './server'
 import raven from './utils/raven'
 import initialize from './scripts/initialize'
+import {
+  newThread,
+  deletedThread,
+  movedThread,
+  editedThread
+} from './models/thread'
+import {
+  newCommunity,
+  deletedCommunity,
+  editedCommunity
+} from './models/community'
+import { newMessage, deletedMessage } from './models/message'
+import {
+  newUser,
+  deletedUser,
+  editedUser,
+  bannedUser,
+  unbannedUser
+} from './models/user'
 
 const debug = require('debug')('elastic:indexing')
 const port = process.env.PORT || 3007
@@ -12,6 +31,24 @@ debug('');
 
 // Initialize the elastic index
 initialize()
+
+newThread();
+deletedThread();
+movedThread();
+editedThread();
+
+newCommunity();
+deletedCommunity();
+editedCommunity();
+
+newUser();
+deletedUser();
+bannedUser();
+unbannedUser();
+editedUser();
+
+newMessage();
+deletedMessage();
 
 const server = createServer();
 server.listen(port, 'localhost', () => {
