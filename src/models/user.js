@@ -41,7 +41,7 @@ export const newUser = () => {
   })
 }
 
-export const deleteUser = () => {
+export const deletedUser = () => {
   listenToDeletedDocumentsIn(db, 'users', data => {
     return client.delete({
       index: 'users',

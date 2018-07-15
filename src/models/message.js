@@ -37,7 +37,7 @@ export const newMessage = () => {
   })
 }
 
-export const deleteMessage = () => {
+export const deletedMessage = () => {
   listenToDeletedDocumentsIn(db, 'messages', data => {
     return client.delete({
       index: 'threads',
