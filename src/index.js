@@ -1,6 +1,6 @@
 import './utils/dotenv'
 import createServer from './server'
-import raven from './utils/raven'
+import Raven from './utils/raven'
 import initialize from './scripts/initialize'
 import {
   newThread,

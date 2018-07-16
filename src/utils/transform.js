@@ -112,7 +112,6 @@ export const dbUserToSearchUser = (user: DBUser): SearchUser => {
     username: user.username,
     description: user.description,
     website: user.website,
-    id: user.id,
     objectID: user.id,
   };
 };
@@ -121,7 +120,6 @@ export const dbCommunityToSearchCommunity = (
   community: DBCommunity
 ): SearchCommunity => {
   return {
-    id: community.id,
     description: community.description,
     name: community.name,
     slug: community.slug,

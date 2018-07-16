@@ -81,7 +81,7 @@ const initialize = () => {
         body: {
           mappings: {
             item: {
-              properties: {
+              properties: {               
                 description: {
                   type: 'text',
                   analyzer: 'ik_max_word',
