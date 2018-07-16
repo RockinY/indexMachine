@@ -13,7 +13,6 @@ import { getThreadById } from '../models/thread';
 import { byteCount } from './textParsing';
 import { toPlainText, toState } from './draft';
 import {
-  withoutStopWords,
   onlyContainsEmoji,
 } from './textParsing';
 
@@ -25,11 +24,6 @@ export const dbThreadToSearchThread = (thread: DBThread): SearchThread => {
         ? toPlainText(toState(JSON.parse(thread.content.body)))
         : ''
       : thread.content.body || '';
-
-  // filter out stop words
-  body = withoutStopWords(body);
-  // filter out stop words
-  title = withoutStopWords(title);
 
   return {
     channelId: thread.channelId,
@@ -81,9 +75,6 @@ const filterMessageString = (message: DBMessage): ?string => {
     return null;
   }
 
-  // filter out stop words
-  messageString = withoutStopWords(messageString);
-
   // passed all checks
   return messageString;
 };
@@ -116,14 +107,10 @@ export const dbMessageToSearchThread = async (
 };
 
 export const dbUserToSearchUser = (user: DBUser): SearchUser => {
-  let description = user.description;
-  // filter out stop words
-  description = description && withoutStopWords(description);
-
   return {
     name: user.name,
     username: user.username,
-    description,
+    description: user.description,
     website: user.website,
     id: user.id,
     objectID: user.id,
@@ -133,13 +120,9 @@ export const dbUserToSearchUser = (user: DBUser): SearchUser => {
 export const dbCommunityToSearchCommunity = (
   community: DBCommunity
 ): SearchCommunity => {
-  let description = community.description;
-  // filter out stop words
-  description = description && withoutStopWords(description);
-
   return {
     id: community.id,
-    description,
+    description: community.description,
     name: community.name,
     slug: community.slug,
     website: community.website ? community.website : null,
