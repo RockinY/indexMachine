@@ -134,7 +134,9 @@ export const editedUser = () => {
       index: 'users',
       type: 'item',
       id: data.id,
-      body: searchableUser
+      body: {
+        doc: searchableUser
+      }
     })
     .then(() => {
       debug('edited user in search');

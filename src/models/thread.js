@@ -94,7 +94,9 @@ export const editedThread = () => {
       index: 'threads',
       type: 'item',
       id: data.id,
-      body: searchableThread
+      body: {
+        doc: searchableThread
+      }
     })
     .then(() => {
       debug('edited thread in search')
