@@ -20,4 +20,4 @@ RUN yarn run build
 EXPOSE 3007
 
 # Start the server
-CMD [ "yarn", "run", "deploy" ]
+CMD [ "yarn", "run", "start" ]
