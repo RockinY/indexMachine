@@ -1,4 +1,4 @@
-import client from '../utils/elastic'
+const client = require('../utils/elastic')
 
 const debug = require('debug')('elastic:scripts:initialize')
 
@@ -114,4 +114,4 @@ const initialize = () => {
     })
 }
 
-export default initialize
+module.exports = initialize
