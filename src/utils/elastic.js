@@ -1,4 +1,4 @@
-import elasticsearch from 'elasticsearch'
+const elasticsearch = require('elasticsearch')
 
 const client = new elasticsearch.Client({
   host: process.env.ELASTIC_HOST,
@@ -6,4 +6,4 @@ const client = new elasticsearch.Client({
   apiVersion: '6.2'
 })
 
-export default client
+module.exports = client

@@ -6,7 +6,8 @@
     "dev": "DEBUG=elastic* backpack",
     "prebuild": "rm -rf ./build",
     "build": "npm run prebuild && backpack build",
-    "start": "node ./build/main"
+    "start": "node ./build/main",
+    "clear": "node ./src/scripts/clearIndices.js"
   },
   "keywords": [
     "elastic"
