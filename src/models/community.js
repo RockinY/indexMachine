@@ -59,7 +59,8 @@ export const editedCommunity = () => {
       type: 'item',
       id: data.id,
       body: {
-        doc: searchableCommunity
+        doc: searchableCommunity,
+        doc_as_upsert: true
       }
     })
     .then(() => {

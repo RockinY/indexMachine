@@ -95,7 +95,8 @@ export const editedThread = () => {
       type: 'item',
       id: data.id,
       body: {
-        doc: searchableThread
+        doc: searchableThread,
+        doc_as_upsert: true
       }
     })
     .then(() => {

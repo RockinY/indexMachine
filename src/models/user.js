@@ -111,21 +111,30 @@ export const unbannedUser = () => {
 
 export const editedUser = () => {
   listenToChangedFieldIn(db, 'modifiedAt')('users', data => {
-    // if we deleted the users email or username, we are deleting their account
+    // if we deleted the users username, we are deleting their account
     if (!data.username) {
-      return client.delete({
+      return client.exists({
         index: 'users',
         type: 'item',
         id: data.id
       })
-      .then(() => {
-        debug('deleted user in search')
-        return
-      })
-      .catch(err => {
-        debug('error deleting a user!')
-        console.error(err)
-        Raven.captureException(err)
+      .then(exist => {
+        if (exist) {
+          return client.delete({
+            index: 'users',
+            type: 'item',
+            id: data.id
+          })
+          .then(() => {
+            debug('deleted user in search')
+            return
+          })
+          .catch(err => {
+            debug('error deleting a user!')
+            console.error(err)
+            Raven.captureException(err)
+          })
+        }
       })
     }
 
@@ -135,8 +144,9 @@ export const editedUser = () => {
       type: 'item',
       id: data.id,
       body: {
-        doc: searchableUser
-      }
+        doc: searchableUser,
+        doc_as_upsert: true
+      },
     })
     .then(() => {
       debug('edited user in search');
