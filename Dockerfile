@@ -9,6 +9,7 @@ COPY package.json ./
 COPY yarn.lock ./
 
 # Do not install devDependencies
+RUN yarn global add babel-cli
 RUN yarn install
 
 # Bundle app source
